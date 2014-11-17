@@ -1,7 +1,7 @@
 var path = require('path');
 module.exports = function(grunt) {
   'use strict';
-  grunt.registerMultiTask('ejs-include', 'concat ejs templates that will be included', function() {
+  grunt.registerMultiTask('ejs_include', 'concat ejs templates that will be included', function() {
     var baseOptions = this.options();
     grunt.verbose.writeflags(baseOptions, 'Options');
     function loadTemplate(filename,options) {
