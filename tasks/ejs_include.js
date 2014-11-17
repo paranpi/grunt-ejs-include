@@ -2,31 +2,36 @@ var path = require('path');
 module.exports = function(grunt) {
   'use strict';
   grunt.registerMultiTask('ejs_include', 'concat ejs templates that will be included', function() {
-    var baseOptions = this.options();
-    grunt.verbose.writeflags(baseOptions, 'Options');
-    function loadTemplate(filename,options) {
+    var options = this.options();
+    grunt.verbose.writeflags(options, 'Options');
+    function loadTemplate(filename) {
       grunt.log.debug('filename',filename);
-      grunt.log.debug('options', options);
-      var template = grunt.file.read(path.join(options.path,filename));
+      var template;
+      if(grunt.file.exists(path.join(options.path,filename))) {
+        template = grunt.file.read(path.join(options.path,filename));
+      }else {
+        template = grunt.file.read(filename);
+      }
+
       var replacedTemplate = template;
-      var includeRegex = new RegExp(/\<\%\sinclude\s(\S+)\s\%\>/g);
+      var includeRegex = new RegExp(/\<\%-?\sinclude\s(\S+)\s\%\>/g);
       var match;
       while (match = includeRegex.exec(template)) {
-        replacedTemplate = template.replace(match[0],loadTemplate(match[1],options));
+        grunt.log.debug('match',match);
+        replacedTemplate = replacedTemplate.replace(match[0],loadTemplate(match[1]));
       }
       return replacedTemplate;
     }
-
     this.files.forEach(function(file) {
-      grunt.log.debug('file',file);
       //var out = file.src.map(grunt.file.read).join('');
-      baseOptions.filename = path.basename(file.src[0]);
-      baseOptions.path = path.dirname(file.src[0]);
+      file.src.forEach(function (filename,idx){
+        options.path = path.dirname(filename);
+        var replaced = loadTemplate(filename);
+        grunt.log.debug('dest',file.dest);
+        grunt.file.write(file.dest,replaced);
+      });
+    });
 
-      var replaced = loadTemplate(baseOptions.filename,baseOptions);
-      grunt.file.write(path.join(file.dest,baseOptions.filename),replaced);
-      grunt.log.debug('replaced',replaced);
-      grunt.log.ok('generated template');
-    })
+    grunt.log.ok('generated template');
   });
 };
