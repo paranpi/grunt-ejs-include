@@ -1,6 +1,6 @@
 # grunt-ejs-include
 
-> The best Grunt plugin ever.
+> A Grunt task for replacing included ejs templates.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
