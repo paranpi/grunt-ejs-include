@@ -1,11 +1,11 @@
 {
   "name": "grunt-ejs-include",
   "description": "concat ejs templates that will be included",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://github.com/paranpi/grunt-ejs-include",
   "author": {
-    "name": "chris",
-    "email": "chris@tourscrap.com"
+    "name": "paranpi",
+    "email": "paranpi666@gmail.com"
   },
   "repository": {
     "type": "git",
