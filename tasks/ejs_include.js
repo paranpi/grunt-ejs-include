@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       grunt.log.debug('filename',filename);
       var template = grunt.file.read(filename);
       var replacedTemplate = template;
-      var includeRegex = new RegExp(/\<\%-?\s*include\s(\S+)\s*\%\>/g);
+      var includeRegex = new RegExp(/\<\%-?\s*include\s*(\S+)\s*\%\>/g);
       var match,path;
       while (match = includeRegex.exec(template)) {
         path = resolveInclude(match[1],filename);
